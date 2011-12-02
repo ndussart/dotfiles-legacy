@@ -1,0 +1,37 @@
+#!/bin/bash
+
+JENKINS_URL="http://10.199.53.202/hudson"
+JENKINS_BUILD="Sigmaplus_Build"
+
+color=$(curl --silent $JENKINS_URL/api/json |sed -r 's|.*"name":"'$JENKINS_BUILD'","url":"[^"]+","color":"([^"]+)".*|\1|g')
+
+# possible color codes are :
+
+# <xsd:simpleType name="hudson.model.BallColor">
+#   <xsd:restriction base="xsd:string">
+#     <xsd:enumeration value="red"/>
+#     <xsd:enumeration value="red_anime"/>
+#     <xsd:enumeration value="yellow"/>
+#     <xsd:enumeration value="yellow_anime"/>
+#     <xsd:enumeration value="blue"/>
+#     <xsd:enumeration value="blue_anime"/>
+#     <xsd:enumeration value="grey"/>
+#     <xsd:enumeration value="grey_anime"/>
+#     <xsd:enumeration value="disabled"/>
+#     <xsd:enumeration value="disabled_anime"/>
+#     <xsd:enumeration value="aborted"/>
+#     <xsd:enumeration value="aborted_anime"/>
+#   </xsd:restriction>
+# </xsd:simpleType>
+
+case "$color" in
+  *anime*)
+    echo "building"
+    ;;
+  *blue*)
+    echo "ok"
+    ;;
+  *)
+    echo "unknown"
+    ;;
+esac
